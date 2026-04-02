@@ -1,0 +1,40 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Background circle -->
+  <circle cx="150" cy="150" r="145" fill="#E8F4F8" opacity="0.8"/>
+  
+  <!-- Moon (left side) -->
+  <path d="M 80 120 Q 70 150 80 180 Q 95 165 95 150 Q 95 135 80 120" fill="#F4B860"/>
+  
+  <!-- Book/Document (right side) -->
+  <g transform="translate(140, 100)">
+    <!-- Book cover left -->
+    <path d="M 10 10 L 40 10 L 40 60 L 10 60 Z" fill="#7FB96F" stroke="#4A6E47" stroke-width="2"/>
+    <!-- Book cover lines (pages) -->
+    <line x1="15" y1="15" x2="38" y2="15" stroke="#FFFFFF" stroke-width="1.5"/>
+    <line x1="15" y1="25" x2="38" y2="25" stroke="#FFFFFF" stroke-width="1.5"/>
+    <line x1="15" y1="35" x2="38" y2="35" stroke="#FFFFFF" stroke-width="1.5"/>
+    <line x1="15" y1="45" x2="38" y2="45" stroke="#FFFFFF" stroke-width="1.5"/>
+    <!-- Book spine -->
+    <path d="M 40 10 L 45 15 L 45 65 L 40 60 Z" fill="#6FA860"/>
+  </g>
+  
+  <!-- Hand (bottom left) -->
+  <g transform="translate(60, 160)">
+    <!-- Palm -->
+    <path d="M 30 40 Q 25 35 20 35 Q 15 35 15 40 L 15 50 Q 15 55 20 55 Q 25 55 30 50 Z" fill="#7FB96F" stroke="#4A6E47" stroke-width="1.5"/>
+    <!-- Fingers -->
+    <line x1="20" y1="35" x2="18" y2="20" stroke="#7FB96F" stroke-width="3" stroke-linecap="round"/>
+    <line x1="27" y1="35" x2="28" y2="18" stroke="#7FB96F" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Pulse/Health line (bottom right) -->
+  <g transform="translate(100, 210)">
+    <path d="M 0 10 L 10 10 L 15 5 L 20 15 L 30 10 L 40 10" stroke="#7FB96F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Arrow (growth indicator) -->
+  <g transform="translate(180, 80)">
+    <line x1="0" y1="30" x2="40" y2="0" stroke="#7FB96F" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="40,0 35,5 40,15" fill="#7FB96F"/>
+  </g>
+</svg>
