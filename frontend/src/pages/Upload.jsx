@@ -52,13 +52,13 @@ export default function Upload({ userEmail, isLoggedIn }) {
       setUploadProgress(100);
       
       if (data.includes("uploaded")) {
-        alert("✅ File uploaded successfully!");
+        alert("File uploaded successfully.");
         setFile(null);
         setUploadProgress(0);
         document.getElementById("fileInput").value = "";
         setTimeout(() => navigate("/my-files"), 1500);
       } else {
-        alert("❌ Upload failed: " + data);
+        alert("Upload failed: " + data);
       }
     } catch (error) {
       alert("Error uploading file: " + error.message);
@@ -70,8 +70,8 @@ export default function Upload({ userEmail, isLoggedIn }) {
   return (
     <div className="upload-container">
       <div className="upload-wrapper">
-        <h2>📤 Upload Medical Records</h2>
-        <p>Securely upload prescriptions, lab reports, medical certificates, and other health documents</p>
+        <h2>Upload Medical Records</h2>
+        <p>Securely upload prescriptions, lab reports, medical certificates, and other health documents.</p>
 
         <div className="record-type-selector">
           <label>Record Type:</label>
@@ -80,31 +80,31 @@ export default function Upload({ userEmail, isLoggedIn }) {
               className={`type-btn ${recordType === 'prescription' ? 'active' : ''}`}
               onClick={() => setRecordType('prescription')}
             >
-              💊 Prescription
+              Prescription
             </button>
             <button 
               className={`type-btn ${recordType === 'lab' ? 'active' : ''}`}
               onClick={() => setRecordType('lab')}
             >
-              🧪 Lab Report
+              Lab Report
             </button>
             <button 
               className={`type-btn ${recordType === 'xray' ? 'active' : ''}`}
               onClick={() => setRecordType('xray')}
             >
-              🖼️ X-Ray/Scan
+              X-Ray/Scan
             </button>
             <button 
               className={`type-btn ${recordType === 'certificate' ? 'active' : ''}`}
               onClick={() => setRecordType('certificate')}
             >
-              📜 Medical Certificate
+              Medical Certificate
             </button>
             <button 
               className={`type-btn ${recordType === 'other' ? 'active' : ''}`}
               onClick={() => setRecordType('other')}
             >
-              📄 Other Document
+              Other Document
             </button>
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function Upload({ userEmail, isLoggedIn }) {
           <div className={`upload-box ${file ? 'has-file' : ''}`}>
             {file ? (
               <div className="file-selected">
-                <div className="file-icon-large">📄</div>
+                <div className="file-icon-large">File</div>
                 <p className="file-name">{file.name}</p>
                 <p className="file-size">
                   {(file.size / 1024 / 1024).toFixed(2)} MB
@@ -130,7 +130,6 @@ export default function Upload({ userEmail, isLoggedIn }) {
               </div>
             ) : (
               <div className="upload-icon">
-                <div className="icon">⬆️</div>
                 <p>Drag & drop your file here</p>
                 <p className="or-text">or</p>
               </div>
@@ -163,7 +162,7 @@ export default function Upload({ userEmail, isLoggedIn }) {
               onClick={handleUpload}
               disabled={!file || isUploading}
             >
-              {isUploading ? 'Uploading...' : '📤 Upload File'}
+              {isUploading ? 'Uploading...' : 'Upload File'}
             </button>
             <button 
               className="cancel-btn"
@@ -175,7 +174,7 @@ export default function Upload({ userEmail, isLoggedIn }) {
           </div>
 
           <div className="upload-info">
-            <h4>📋 Upload Guidelines</h4>
+            <h4>Upload Guidelines</h4>
             <ul>
               <li>Supported formats: PDF, DOC, DOCX, JPG, PNG, XLS (Medical reports preferred as PDF)</li>
               <li>Maximum file size: 50 MB per document</li>

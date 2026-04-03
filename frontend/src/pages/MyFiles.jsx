@@ -10,25 +10,6 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  if (!isLoggedIn) {
-    return (
-      <div className="myfiles-container">
-        <div className="not-logged-in">
-          <p>Please login to view your files</p>
-          <button onClick={() => navigate("/auth")}>Go to Login</button>
-        </div>
-      </div>
-    );
-  }
-
-  useEffect(() => {
-    fetchFiles();
-  }, [userEmail]);
-
-  useEffect(() => {
-    filterAndSortFiles();
-  }, [files, searchTerm, sortBy]);
-
   const fetchFiles = async () => {
     setIsLoading(true);
     try {
@@ -42,21 +23,50 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
     setIsLoading(false);
   };
 
-  const filterAndSortFiles = () => {
-    let filtered = files.filter(file =>
+  useEffect(() => {
+    if (!userEmail) return;
+
+    const loadFiles = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`http://127.0.0.1:5000/my-files/${userEmail}`);
+        const data = await res.json();
+        setFiles(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error fetching files:", error);
+        setFiles([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadFiles();
+  }, [userEmail]);
+
+  useEffect(() => {
+    const filtered = files.filter((file) =>
       file.file_path.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (sortBy === "oldest") {
-      filtered = filtered.reverse();
+      filtered.reverse();
     } else if (sortBy === "name") {
-      filtered = filtered.sort((a, b) =>
-        a.file_path.localeCompare(b.file_path)
-      );
+      filtered.sort((a, b) => a.file_path.localeCompare(b.file_path));
     }
 
     setFilteredFiles(filtered);
-  };
+  }, [files, searchTerm, sortBy]);
+
+  if (!isLoggedIn) {
+    return (
+      <div className="myfiles-container">
+        <div className="not-logged-in">
+          <p>Please login to view your files</p>
+          <button onClick={() => navigate("/auth")}>Go to Login</button>
+        </div>
+      </div>
+    );
+  }
 
   const handleDelete = async (fileId) => {
     if (!window.confirm("Are you sure you want to delete this file?")) return;
@@ -69,10 +79,10 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
       const data = await res.text();
 
       if (data.includes("successfully")) {
-        alert("✅ File deleted");
+        alert("File deleted successfully.");
         fetchFiles();
       } else {
-        alert("❌ Error: " + data);
+        alert("Error: " + data);
       }
     } catch (error) {
       alert("Error deleting file: " + error.message);
@@ -95,10 +105,10 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
       const data = await res.text();
 
       if (data.includes("successfully")) {
-        alert("✅ File renamed");
+        alert("File renamed successfully.");
         fetchFiles();
       } else {
-        alert("❌ Error: " + data);
+        alert("Error: " + data);
       }
     } catch (error) {
       alert("Error renaming file: " + error.message);
@@ -114,37 +124,43 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
 
   const getFileIcon = (filename) => {
     const ext = filename.split(".").pop().toLowerCase();
-    const icons = {
-      pdf: "📕",
-      doc: "📘",
-      docx: "📘",
-      xls: "📗",
-      xlsx: "📗",
-      jpg: "🖼️",
-      jpeg: "🖼️",
-      png: "🖼️",
-      gif: "🖼️",
-      txt: "📄",
-      zip: "📦",
-      rar: "📦"
+    const iconMap = {
+      pdf: "📄 PDF",
+      doc: "📝 DOC",
+      docx: "📝 DOCX",
+      xls: "📊 XLS",
+      xlsx: "📊 XLSX",
+      jpg: "🖼️ IMG",
+      jpeg: "🖼️ IMG",
+      png: "🖼️ IMG",
+      gif: "🖼️ IMG",
+      txt: "📄 TXT",
+      zip: "📦 ZIP",
+      rar: "📦 RAR"
     };
-    return icons[ext] || "📄";
+    return iconMap[ext] || "📄 DOC";
+  };
+
+  const getFileDate = (timestamp) => {
+    if (!timestamp) return "Unknown";
+    const date = new Date(timestamp);
+    return isNaN(date.getTime()) ? "Invalid date" : date.toLocaleDateString();
   };
 
   return (
     <div className="myfiles-container">
       <div className="myfiles-header">
-        <h2>🏥 My Medical Records</h2>
-        <p>View, manage, and organize all your medical documents in one secure location</p>
-        <button className="upload-btn-header" onClick={() => navigate("/upload")}>
-          ➕ Upload New Record
+        <h2>My Medical Records</h2>
+        <p>View, manage, and organize your medical documents in one secure location.</p>
+        <button className="upload-btn-header" onClick={() => navigate("/upload")}> 
+          📤 Upload Record
         </button>
       </div>
 
       <div className="search-sort-section">
         <input
           type="text"
-          placeholder="🔍 Search your records..."
+          placeholder="Search your records"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
@@ -165,7 +181,7 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
         <div className="loading">Loading your files...</div>
       ) : filteredFiles.length === 0 ? (
         <div className="no-files">
-          <div className="empty-icon">📁</div>
+          <div className="empty-icon">No files found</div>
           <p>
             {files.length === 0
               ? "No files uploaded yet"
@@ -185,11 +201,11 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
                 <h4 className="file-name">{file.file_path}</h4>
                 {file.document_type && (
                   <p className="file-type">
-                    📋 {file.document_type.charAt(0).toUpperCase() + file.document_type.slice(1)}
+                    {file.document_type.charAt(0).toUpperCase() + file.document_type.slice(1)}
                   </p>
                 )}
                 <p className="file-date">
-                  📅 {new Date(file.created_at || Date.now()).toLocaleDateString()}
+                  {getFileDate(file.created_at)}
                 </p>
               </div>
 
@@ -204,28 +220,28 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
                   }
                   title="View file"
                 >
-                  👁️
+                  👁️ View
                 </button>
                 <button
                   className="action-btn download-btn"
                   onClick={() => handleDownload(file.file_path)}
                   title="Download file"
                 >
-                  ⬇️
+                  ⬇️ Download
                 </button>
                 <button
                   className="action-btn rename-btn"
                   onClick={() => handleRename(file.id, file.file_path)}
                   title="Rename file"
                 >
-                  ✏️
+                  ✏️ Rename
                 </button>
                 <button
                   className="action-btn delete-btn"
                   onClick={() => handleDelete(file.id)}
                   title="Delete file"
                 >
-                  🗑️
+                  🗑️ Delete
                 </button>
               </div>
             </div>
@@ -234,8 +250,8 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
       )}
 
       <div className="file-stats">
-        <p>📊 Total Files: {files.length}</p>
-        <p>🔍 Showing: {filteredFiles.length} file(s)</p>
+        <p>Total Files: {files.length}</p>
+        <p>Showing: {filteredFiles.length} file(s)</p>
       </div>
     </div>
   );

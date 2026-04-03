@@ -10,7 +10,14 @@
   "engines": {
     "node": "18.x"
   },
-  "keywords": ["medical", "documents", "healthcare"],
+  "keywords": [
+    "medical",
+    "documents",
+    "healthcare"
+  ],
   "author": "RogNidhi",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }

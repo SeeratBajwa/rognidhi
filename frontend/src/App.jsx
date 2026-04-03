@@ -19,20 +19,20 @@ function Navbar({ isLoggedIn, userEmail, setIsLoggedIn, setUserEmail }) {
   const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
-    if (isLoggedIn && userEmail) {
-      fetchUserRole();
-    }
-  }, [isLoggedIn, userEmail]);
+    if (!isLoggedIn || !userEmail) return;
 
-  const fetchUserRole = async () => {
-    try {
-      const res = await fetch(`http://127.0.0.1:5000/user-info/${userEmail}`);
-      const data = await res.json();
-      setUserRole(data.role);
-    } catch (error) {
-      console.error("Error fetching user role:", error);
-    }
-  };
+    const loadUserRole = async () => {
+      try {
+        const res = await fetch(`http://127.0.0.1:5000/user-info/${userEmail}`);
+        const data = await res.json();
+        setUserRole(data.role);
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      }
+    };
+
+    loadUserRole();
+  }, [isLoggedIn, userEmail]);
 
   if (!isLoggedIn) return null;
 
@@ -41,7 +41,7 @@ function Navbar({ isLoggedIn, userEmail, setIsLoggedIn, setUserEmail }) {
   return (
     <nav className="app-navbar">
       <div className="nav-brand-container">
-        <img src="/rognidhi-logo.svg" alt="RogNidhi Logo" className="nav-logo-img" />
+        <img src="/rognidhi-logo.svg?v=2" alt="RogNidhi Logo" className="nav-logo-img" />
         <a href="/" className="nav-brand">RogNidhi</a>
       </div>
       <ul className="nav-menu">

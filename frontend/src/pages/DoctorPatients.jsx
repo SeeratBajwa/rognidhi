@@ -14,26 +14,24 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoggedIn) {
-      fetchPatients();
-    }
-  }, [isLoggedIn, userEmail]);
+    if (!isLoggedIn || !userEmail) return;
 
-  const fetchPatients = async () => {
-    try {
-      setLoading(true);
-      console.log("Fetching patients for doctor:", userEmail);
-      const res = await fetch(`http://127.0.0.1:5000/doctor-patients/${userEmail}`);
-      const data = await res.json();
-      console.log("Patients data received:", data);
-      setPatients(data.patients || []);
-    } catch (error) {
-      console.error("Error fetching patients:", error);
-      setPatients([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const loadPatients = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`http://127.0.0.1:5000/doctor-patients/${userEmail}`);
+        const data = await res.json();
+        setPatients(data.patients || []);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+        setPatients([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPatients();
+  }, [isLoggedIn, userEmail]);
 
   const fetchPatientReports = async (patientEmail, patientName) => {
     try {
@@ -94,7 +92,7 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
   return (
     <div className="doctor-patients-container">
       <div className="doctor-header">
-        <h1>👨‍⚕️ Doctor Dashboard</h1>
+        <h1>Doctor Dashboard</h1>
         <p>Manage your patients and their medical records</p>
       </div>
 
@@ -116,7 +114,7 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
                   className={`patient-card ${selectedPatient === patient.email ? 'selected' : ''}`}
                   onClick={() => fetchPatientReports(patient.email, patient.name)}
                 >
-                  <div className="patient-avatar">👥</div>
+                  <div className="patient-avatar">{patient.name ? patient.name.charAt(0).toUpperCase() : 'P'}</div>
                   <div className="patient-info">
                     <h3>{patient.name}</h3>
                     <p>{patient.email}</p>
@@ -136,21 +134,21 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
                 className="ai-summary-btn"
                 onClick={() => generateAISummary(selectedPatient)}
                 disabled={generatingSummary || patientReports.length === 0}
-                title={patientReports.length === 0 ? "No reports to summarize" : "Generate AI summary"}
+                title={patientReports.length === 0 ? "No reports to summarize" : "Generate summary"}
               >
-                {generatingSummary ? "🤖 Generating..." : "🤖 AI Summary"}
+                {generatingSummary ? "Generating..." : "Generate Summary"}
               </button>
             </div>
 
             {aiError && (
               <div className="ai-error">
-                <p>❌ {aiError}</p>
+                <p>{aiError}</p>
               </div>
             )}
 
             {aiSummary && (
               <div className="ai-summary">
-                <h3>AI Medical Summary</h3>
+                <h3>Clinical Summary</h3>
                 <div className="summary-content">
                   {aiSummary}
                 </div>
@@ -167,11 +165,11 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
                 {patientReports.map((report, idx) => (
                   <div key={idx} className="report-item">
                     <div className="report-icon">
-                      {report.document_type === 'prescription' && '💊'}
-                      {report.document_type === 'lab_report' && '🧪'}
-                      {report.document_type === 'x_ray' && '🖼️'}
-                      {report.document_type === 'certificate' && '📜'}
-                      {!['prescription', 'lab_report', 'x_ray', 'certificate'].includes(report.document_type) && '📄'}
+                      {report.document_type === 'prescription' && 'Prescription'}
+                      {report.document_type === 'lab_report' && 'Lab Report'}
+                      {report.document_type === 'x_ray' && 'X-Ray'}
+                      {report.document_type === 'certificate' && 'Certificate'}
+                      {!['prescription', 'lab_report', 'x_ray', 'certificate'].includes(report.document_type) && 'Document'}
                     </div>
                     <div className="report-details">
                       <h4>{report.document_type ? report.document_type.replace(/_/g, ' ').toUpperCase() : 'Medical Document'}</h4>

@@ -23,7 +23,7 @@ export default function Home({ isLoggedIn, userEmail, setIsLoggedIn, setUserEmai
       <nav className="navbar">
         <div className="nav-left">
           <div className="logo-container">
-            <img src="/rognidhi-logo.svg" alt="RogNidhi Logo" className="logo-img" />
+            <img src="/rognidhi-logo.svg?v=2" alt="RogNidhi Logo" className="logo-img" />
             <h1 className="logo">RogNidhi</h1>
           </div>
         </div>
@@ -45,41 +45,37 @@ export default function Home({ isLoggedIn, userEmail, setIsLoggedIn, setUserEmai
 
       <div className="hero-section">
         <div className="hero-content">
-          <h2>Your Medical Documents, Secure & Organized</h2>
+          <h2>Industry-grade medical record management</h2>
           <p>
-            Upload, organize, and share your medical records with doctors. Secure, private, and always accessible.
+            Secure, compliant storage and sharing for health documents in one centralized dashboard.
           </p>
           <button className="cta-btn" onClick={handleGetStarted}>
-            {isLoggedIn ? "Go to Dashboard" : "Get Started Free"}
+            {isLoggedIn ? "Go to Dashboard" : "Get Started"}
           </button>
         </div>
         <div className="hero-image">
-          <div className="file-icon">📁</div>
+          <div className="file-icon"> </div>
         </div>
       </div>
 
       <div className="features-section">
-        <h3>Why Choose RogNidhi?</h3>
+        <h3>Why RogNidhi</h3>
         <div className="features-grid">
           <div className="feature-card">
-            <div className="feature-icon">🔐</div>
-            <h4>HIPAA Compliant</h4>
-            <p>Your medical data is encrypted and secure</p>
+            <h4>🔒 Security & Compliance</h4>
+            <p>Encrypted storage and strict access controls.</p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">👨‍⚕️👥</div>
-            <h4>Share with Doctors</h4>
-            <p>Give doctors instant access to your records</p>
+            <h4>🤝 Provider Collaboration</h4>
+            <p>Share records with care teams in seconds.</p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">📋</div>
-            <h4>Organize Records</h4>
-            <p>Medical reports, prescriptions, test results</p>
+            <h4>📂 Centralized Records</h4>
+            <p>All test results, prescriptions and reports in one place.</p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">📱</div>
-            <h4>Access Anywhere</h4>
-            <p>Your health records always in your pocket</p>
+            <h4>🌐 Always Accessible</h4>
+            <p>Web access from desktop or tablet with audit trail.</p>
           </div>
         </div>
       </div>

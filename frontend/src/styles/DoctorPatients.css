@@ -10,9 +10,10 @@
   text-align: center;
   margin-bottom: 30px;
   padding: 20px;
-  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
-  border-radius: 16px;
-  color: white;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
 }
 
 .doctor-header h1 {
@@ -128,7 +129,7 @@
 }
 
 .ai-summary-btn {
-  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+  background: var(--primary-color);
   color: white;
   border: none;
   padding: 12px 20px;
@@ -136,9 +137,6 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .ai-summary-btn:hover:not(:disabled) {

@@ -44,11 +44,11 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
 
       const data = await res.text();
       if (data === "User registered" || data.includes("registered")) {
-        alert("✅ Account created! Please login.");
+        alert("Account created successfully. Please login.");
         setIsSignup(false);
         setForm({ name: "", email: "", password: "", confirmPassword: "", role: "patient" });
       } else {
-        alert("❌ " + data);
+        alert(data);
       }
     } catch (error) {
       alert("Error: " + error.message);
@@ -77,10 +77,10 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
       if (data === "Login successful") {
         setIsLoggedIn(true);
         setUserEmail(form.email);
-        alert("✅ Welcome back!");
+        alert("Welcome back!");
         navigate("/dashboard");
       } else {
-        alert("❌ " + data);
+        alert(data);
       }
     } catch (error) {
       alert("Error: " + error.message);
@@ -92,7 +92,7 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-logo-container">
-          <img src="/rognidhi-logo.svg" alt="RogNidhi Logo" className="auth-logo-img" />
+          <img src="/rognidhi-logo.svg?v=2" alt="RogNidhi Logo" className="auth-logo-img" />
           <h2 className="auth-title">RogNidhi</h2>
         </div>
         <p className="auth-subtitle">Secure Medical Document Management</p>
@@ -130,7 +130,7 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
                     checked={form.role === 'patient'}
                     onChange={handleChange}
                   />
-                  <span className="role-label">👥 Patient</span>
+                  <span className="role-label">Patient</span>
                   <span className="role-desc">Store medical records</span>
                 </label>
                 <label className={`role-option ${form.role === 'doctor' ? 'selected' : ''}`}>
@@ -141,7 +141,7 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
                     checked={form.role === 'doctor'}
                     onChange={handleChange}
                   />
-                  <span className="role-label">👨‍⚕️ Doctor</span>
+                  <span className="role-label">Doctor</span>
                   <span className="role-desc">Access patient records</span>
                 </label>
               </div>
