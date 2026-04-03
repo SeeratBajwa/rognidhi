@@ -5,10 +5,18 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\""
+    "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "postinstall": "npm --prefix backend install && npm --prefix frontend install"
   },
   "engines": {
     "node": "18.x"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.20.0",
+    "cors": "^2.8.6",
+    "multer": "^2.1.1",
+    "pdf-parse": "^2.4.5"
   },
   "keywords": [
     "medical",
