@@ -45,37 +45,38 @@ export default function Home({ isLoggedIn, userEmail, setIsLoggedIn, setUserEmai
 
       <div className="hero-section">
         <div className="hero-content">
-          <h2>Industry-grade medical record management</h2>
+          <h2>Your Medical History, Always Within Reach.</h2>
           <p>
-            Secure, compliant storage and sharing for health documents in one centralized dashboard.
+            A unified, compliant platform for storing and sharing health documents safely.
           </p>
           <button className="cta-btn" onClick={handleGetStarted}>
             {isLoggedIn ? "Go to Dashboard" : "Get Started"}
           </button>
         </div>
         <div className="hero-image">
-          <div className="file-icon"> </div>
+          <div className="file-icon">
+            <img src="/rognidhi-logo.svg?v=2" alt="RogNidhi Logo" className="hero-logo" />
+          </div>
         </div>
       </div>
 
       <div className="features-section">
-        <h3>Why RogNidhi</h3>
+        <h3>Why RogNidhi?</h3>
         <div className="features-grid">
-          <div className="feature-card">
-            <h4>🔒 Security & Compliance</h4>
-            <p>Encrypted storage and strict access controls.</p>
+          
+          <div className="feature-card" style={{ '--card-index': 1 }}>
+            <h4>🤝 Effortless Sharing with Doctors</h4>
+            <p>Share your medical records with your doctor instantly and securely.</p>
           </div>
-          <div className="feature-card">
-            <h4>🤝 Provider Collaboration</h4>
-            <p>Share records with care teams in seconds.</p>
+          <div className="feature-card" style={{ '--card-index': 2 }}>
+            <h4>📂 Everything in One Place        
+
+            </h4>
+            <p>All your lab reports, prescriptions, scans and notes — organized automatically.</p>
           </div>
-          <div className="feature-card">
-            <h4>📂 Centralized Records</h4>
-            <p>All test results, prescriptions and reports in one place.</p>
-          </div>
-          <div className="feature-card">
-            <h4>🌐 Always Accessible</h4>
-            <p>Web access from desktop or tablet with audit trail.</p>
+          <div className="feature-card" style={{ '--card-index': 3 }}>
+            <h4>🌐 Accessible Anytime, Anywhere</h4>
+            <p>Instant access from phone, tablet or desktop — no apps required.</p>
           </div>
         </div>
       </div>

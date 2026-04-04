@@ -4,8 +4,12 @@ import "../styles/Profile.css";
 
 export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserEmail }) {
   const [userInfo, setUserInfo] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editForm, setEditForm] = useState({});
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +21,6 @@ export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserE
         const data = await res.json();
         if (data && data.name) {
           setUserInfo(data);
-          setEditForm(data);
         } else if (data && data.error) {
           console.error("Error from server:", data.error);
         }
@@ -40,63 +43,24 @@ export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserE
     );
   }
 
-  // fetchUserInfo is already declared above and used in useEffect.
-
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUserEmail("");
     navigate("/");
   };
 
-  const handleSaveEdit = async () => {
-    const updated = {
-      originalEmail: userInfo.email,
-      name: editForm.name,
-      email: editForm.email,
-      role: editForm.role
-    };
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
 
-    const updatedUserInfo = {
-      name: editForm.name,
-      email: editForm.email,
-      role: editForm.role
-    };
+    const { currentPassword, newPassword, confirmPassword } = passwordForm;
 
-    if (!updated.name || !updated.email || !updated.role) {
-      return alert("Please fill all profile fields.");
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return alert("Please fill all password fields.");
     }
 
-    try {
-      const response = await fetch("http://127.0.0.1:5000/update-profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updated)
-      });
-
-      const text = await response.text();
-      if (!response.ok) {
-        throw new Error(text || "Unable to update profile");
-      }
-
-      alert(text || "Profile updated successfully");
-      setUserInfo({ ...userInfo, ...updatedUserInfo });
-      setEditForm({ ...editForm, ...updatedUserInfo });
-      if (updated.email !== userInfo.email) {
-        setUserEmail(updated.email);
-        localStorage.setItem("userEmail", updated.email);
-      }
-      setIsEditing(false);
-    } catch (error) {
-      alert("Error updating profile: " + error.message);
+    if (newPassword !== confirmPassword) {
+      return alert("New passwords do not match.");
     }
-  };
-
-  const handleChangePassword = async () => {
-    const oldPassword = prompt("Enter your current password:");
-    if (!oldPassword) return;
-
-    const newPassword = prompt("Enter your new password:");
-    if (!newPassword) return;
 
     if (newPassword.length < 6) {
       return alert("New password must be at least 6 characters.");
@@ -106,13 +70,25 @@ export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserE
       const response = await fetch("http://127.0.0.1:5000/change-password", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: userInfo.email, oldPassword, newPassword })
+        body: JSON.stringify({
+          email: userInfo.email,
+          oldPassword: currentPassword,
+          newPassword: newPassword
+        })
       });
+
       const text = await response.text();
       if (!response.ok) {
         throw new Error(text || "Unable to update password");
       }
+
       alert(text || "Password changed successfully");
+      setPasswordForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: ""
+      });
+      setIsChangingPassword(false);
     } catch (error) {
       alert("Error changing password: " + error.message);
     }
@@ -149,59 +125,61 @@ export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserE
             </div>
           </div>
 
-          {isEditing ? (
-            <div className="edit-form">
-              <h4>Edit Profile</h4>
-              <input
-                type="text"
-                placeholder="Name"
-                value={editForm.name}
-                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                className="edit-input"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={editForm.email}
-                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                className="edit-input"
-              />
-              <select
-                value={editForm.role}
-                onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
-                className="edit-input"
-              >
-                <option value="patient">Patient</option>
-                <option value="doctor">Doctor</option>
-                <option value="admin">Admin</option>
-              </select>
-              
-              <div className="edit-actions">
-                <button 
-                  className="save-btn"
-                  onClick={handleSaveEdit}
-                >
-                  Save Changes
-                </button>
-                <button 
-                  className="cancel-btn"
-                  onClick={() => setIsEditing(false)}
-                >
-                  Cancel
-                </button>
-              </div>
+          {isChangingPassword ? (
+            <div className="password-change-form">
+              <h4>Change Password</h4>
+              <form onSubmit={handlePasswordChange}>
+                <input
+                  type="password"
+                  placeholder="Current Password"
+                  value={passwordForm.currentPassword}
+                  onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                  className="password-input"
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="New Password"
+                  value={passwordForm.newPassword}
+                  onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                  className="password-input"
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Confirm New Password"
+                  value={passwordForm.confirmPassword}
+                  onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                  className="password-input"
+                  required
+                />
+
+                <div className="password-actions">
+                  <button type="submit" className="save-password-btn">
+                    Change Password
+                  </button>
+                  <button
+                    type="button"
+                    className="cancel-password-btn"
+                    onClick={() => {
+                      setIsChangingPassword(false);
+                      setPasswordForm({
+                        currentPassword: "",
+                        newPassword: "",
+                        confirmPassword: ""
+                      });
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
           ) : (
             <div className="profile-actions">
-              <button 
-                className="edit-btn"
-                onClick={() => setIsEditing(true)}
-              >
-                Edit Profile
-              </button>
-              <button 
+              <button
                 className="change-password-btn"
-                onClick={handleChangePassword}
+                onClick={() => setIsChangingPassword(true)}
               >
                 Change Password
               </button>
@@ -210,7 +188,7 @@ export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserE
 
           <div className="danger-zone">
             <h4>Danger Zone</h4>
-            <button 
+            <button
               className="delete-account-btn"
               onClick={handleDeleteAccount}
             >
@@ -219,7 +197,7 @@ export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserE
           </div>
 
           <div className="profile-footer">
-            <button 
+            <button
               className="logout-btn"
               onClick={handleLogout}
             >

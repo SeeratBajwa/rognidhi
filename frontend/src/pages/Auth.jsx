@@ -108,6 +108,7 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
               value={form.name}
               onChange={handleChange}
               className="auth-input"
+              style={{ '--input-index': 0 }}
             />
             
             <input
@@ -117,12 +118,13 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
               value={form.email}
               onChange={handleChange}
               className="auth-input"
+              style={{ '--input-index': 1 }}
             />
 
             <div className="role-selector">
               <label>I am a:</label>
               <div className="role-options">
-                <label className={`role-option ${form.role === 'patient' ? 'selected' : ''}`}>
+                <label className={`role-option ${form.role === 'patient' ? 'selected' : ''}`} style={{ '--role-index': 0 }}>
                   <input
                     type="radio"
                     name="role"
@@ -130,10 +132,10 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
                     checked={form.role === 'patient'}
                     onChange={handleChange}
                   />
-                  <span className="role-label">Patient</span>
+                  <span className="role-label">👤 Patient</span>
                   <span className="role-desc">Store medical records</span>
                 </label>
-                <label className={`role-option ${form.role === 'doctor' ? 'selected' : ''}`}>
+                <label className={`role-option ${form.role === 'doctor' ? 'selected' : ''}`} style={{ '--role-index': 1 }}>
                   <input
                     type="radio"
                     name="role"
@@ -141,7 +143,7 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
                     checked={form.role === 'doctor'}
                     onChange={handleChange}
                   />
-                  <span className="role-label">Doctor</span>
+                  <span className="role-label">👨‍⚕️ Doctor</span>
                   <span className="role-desc">Access patient records</span>
                 </label>
               </div>
@@ -154,6 +156,7 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
               value={form.password}
               onChange={handleChange}
               className="auth-input"
+              style={{ '--input-index': 2 }}
             />
 
             <input
@@ -163,6 +166,7 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
               value={form.confirmPassword}
               onChange={handleChange}
               className="auth-input"
+              style={{ '--input-index': 3 }}
             />
             
             <button 
@@ -197,6 +201,7 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
               value={form.email}
               onChange={handleChange}
               className="auth-input"
+              style={{ '--input-index': 0 }}
             />
             
             <input
@@ -206,6 +211,7 @@ export default function Auth({ setIsLoggedIn, setUserEmail }) {
               value={form.password}
               onChange={handleChange}
               className="auth-input"
+              style={{ '--input-index': 1 }}
             />
             
             <button 

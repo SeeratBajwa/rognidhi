@@ -209,6 +209,70 @@
   background-color: var(--primary-dark);
 }
 
+.password-change-form {
+  background-color: var(--light-bg);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.password-change-form h4 {
+  color: var(--text-primary);
+  font-size: 16px;
+  margin: 0 0 15px;
+  font-weight: 600;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.password-input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.password-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.save-password-btn {
+  flex: 1;
+  padding: 12px;
+  background-color: var(--success-color);
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.save-password-btn:hover {
+  background-color: #059669;
+}
+
+.cancel-password-btn {
+  flex: 1;
+  padding: 12px;
+  background-color: var(--border-color);
+  color: var(--text-primary);
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-password-btn:hover {
+  background-color: #d1d5db;
+}
+
 .danger-zone {
   background-color: #fef2f2;
   border-left: 4px solid var(--danger-color);
@@ -267,5 +331,14 @@
   .change-password-btn {
     width: 100%;
     min-width: unset;
+  }
+
+  .password-actions {
+    flex-direction: column;
+  }
+
+  .save-password-btn,
+  .cancel-password-btn {
+    width: 100%;
   }
 }

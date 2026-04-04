@@ -17,6 +17,7 @@ function Navbar({ isLoggedIn, userEmail, setIsLoggedIn, setUserEmail }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [userRole, setUserRole] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!isLoggedIn || !userEmail) return;
@@ -38,40 +39,87 @@ function Navbar({ isLoggedIn, userEmail, setIsLoggedIn, setUserEmail }) {
 
   const isActive = (path) => location.pathname === path ? "active" : "";
 
+  const navigationItems = userRole === 'doctor' ? [
+    { path: '/dashboard', label: 'Dashboard', icon: '📊' },
+    { path: '/doctor-patients', label: 'My Patients', icon: '👥' },
+    { path: '/profile', label: 'Profile', icon: '👤' }
+  ] : [
+    { path: '/dashboard', label: 'Dashboard', icon: '📊' },
+    { path: '/upload', label: 'Upload', icon: '📤' },
+    { path: '/my-files', label: 'My Records', icon: '📁' },
+    { path: '/share', label: 'Share', icon: '🔗' },
+    { path: '/profile', label: 'Profile', icon: '👤' }
+  ];
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserEmail("");
+    navigate("/");
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <nav className="app-navbar">
-      <div className="nav-brand-container">
-        <img src="/rognidhi-logo.svg?v=2" alt="RogNidhi Logo" className="nav-logo-img" />
-        <a href="/" className="nav-brand">RogNidhi</a>
+      <div className="nav-container">
+        <div className="nav-brand-container">
+          <img src="/rognidhi-logo.svg?v=2" alt="RogNidhi Logo" className="nav-logo-img" />
+          <a href="/" className="nav-brand">RogNidhi</a>
+        </div>
+
+        <div className={`nav-menu-container ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+          <ul className="nav-menu">
+            {navigationItems.map((item, index) => (
+              <li key={item.path}>
+                <button
+                  className={`nav-link ${isActive(item.path)}`}
+                  onClick={() => handleNavigation(item.path)}
+                  style={{ '--index': index }}
+                >
+                  <span className="nav-icon">{item.icon}</span>
+                  <span className="nav-label">{item.label}</span>
+                  <span className="nav-indicator"></span>
+                </button>
+              </li>
+            ))}
+            <li className="nav-divider"></li>
+            <li>
+              <div className="user-info">
+                <span className="user-avatar">👤</span>
+                <span className="user-email">{userEmail}</span>
+              </div>
+            </li>
+            <li>
+              <button
+                className="nav-link logout-btn"
+                onClick={handleLogout}
+              >
+                <span className="nav-icon">🚪</span>
+                <span className="nav-label">Logout</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <button
+          className={`mobile-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
-      <ul className="nav-menu">
-        <li><button className={`nav-link ${isActive('/dashboard')}`} onClick={() => navigate("/dashboard")}>Dashboard</button></li>
-        {userRole === 'doctor' ? (
-          <>
-            <li><button className={`nav-link ${isActive('/doctor-patients')}`} onClick={() => navigate("/doctor-patients")}>My Patients</button></li>
-            <li><button className={`nav-link ${isActive('/profile')}`} onClick={() => navigate("/profile")}>Profile</button></li>
-          </>
-        ) : (
-          <>
-            <li><button className={`nav-link ${isActive('/upload')}`} onClick={() => navigate("/upload")}>Upload</button></li>
-            <li><button className={`nav-link ${isActive('/my-files')}`} onClick={() => navigate("/my-files")}>My Records</button></li>
-            <li><button className={`nav-link ${isActive('/share')}`} onClick={() => navigate("/share")}>Share</button></li>
-            <li><button className={`nav-link ${isActive('/profile')}`} onClick={() => navigate("/profile")}>Profile</button></li>
-          </>
-        )}
-        <li>
-          <button
-            className="nav-link"
-            onClick={() => {
-              setIsLoggedIn(false);
-              setUserEmail("");
-              navigate("/");
-            }}
-          >
-            Logout
-          </button>
-        </li>
-      </ul>
+
+      {/* Mobile menu overlay */}
+      {isMobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setIsMobileMenuOpen(false)}></div>
+      )}
     </nav>
   );
 }

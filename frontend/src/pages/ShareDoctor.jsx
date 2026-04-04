@@ -222,16 +222,6 @@ export default function ShareDoctor({ userEmail, isLoggedIn }) {
               </div>
             </div>
           )}
-
-          <div className="security-notice">
-            <h4>Security & Privacy</h4>
-            <ul>
-              <li>Your records are encrypted during transfer</li>
-              <li>Only the specified doctor can access shared records</li>
-              <li>You can revoke access at any time</li>
-              <li>Access is logged for your review</li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>

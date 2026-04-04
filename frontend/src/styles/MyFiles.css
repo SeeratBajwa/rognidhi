@@ -178,11 +178,12 @@
   padding: 15px 20px;
   border-top: 1px solid var(--border-color);
   background-color: var(--light-bg);
+  flex-wrap: wrap;
 }
 
 .action-btn {
-  flex: 1;
-  padding: 10px;
+  flex: 1 1 110px;
+  padding: 10px 12px;
   border: none;
   border-radius: 6px;
   font-size: 14px;
@@ -190,7 +191,8 @@
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 40px;
+  min-width: 90px;
+  white-space: nowrap;
 }
 
 .action-btn:hover {

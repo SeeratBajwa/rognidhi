@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Upload.css";
 
@@ -7,14 +7,21 @@ export default function Upload({ userEmail, isLoggedIn }) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [recordType, setRecordType] = useState("prescription");
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState(null); // 'success', 'error', or null
+  const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
   if (!isLoggedIn) {
     return (
       <div className="upload-container">
-        <div className="not-logged-in">
-          <p>Please login to upload files</p>
-          <button onClick={() => navigate("/auth")}>Go to Login</button>
+        <div className="not-logged-in card fade-in">
+          <div className="auth-icon">🔒</div>
+          <h3>Authentication Required</h3>
+          <p>Please login to upload your medical files securely</p>
+          <button className="btn" onClick={() => navigate("/auth")}>
+            Go to Login
+          </button>
         </div>
       </div>
     );
@@ -23,7 +30,57 @@ export default function Upload({ userEmail, isLoggedIn }) {
   const handleFileSelect = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      setFile(selectedFile);
+      validateAndSetFile(selectedFile);
+    }
+  };
+
+  const validateAndSetFile = (selectedFile) => {
+    const allowedTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'image/jpeg',
+      'image/png',
+      'image/jpg',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+
+    const maxSize = 50 * 1024 * 1024; // 50MB
+
+    if (!allowedTypes.includes(selectedFile.type)) {
+      setUploadStatus('error');
+      alert('Please select a valid file type: PDF, DOC, DOCX, JPG, PNG, or XLS');
+      return;
+    }
+
+    if (selectedFile.size > maxSize) {
+      setUploadStatus('error');
+      alert('File size must be less than 50MB');
+      return;
+    }
+
+    setFile(selectedFile);
+    setUploadStatus(null);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragOver(false);
+
+    const droppedFile = e.dataTransfer.files[0];
+    if (droppedFile) {
+      validateAndSetFile(droppedFile);
     }
   };
 
@@ -35,6 +92,7 @@ export default function Upload({ userEmail, isLoggedIn }) {
 
     setIsUploading(true);
     setUploadProgress(0);
+    setUploadStatus(null);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -42,146 +100,219 @@ export default function Upload({ userEmail, isLoggedIn }) {
     formData.append("recordType", recordType);
 
     try {
+      // Simulate progress for better UX
+      const progressInterval = setInterval(() => {
+        setUploadProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + 10;
+        });
+      }, 200);
+
       const res = await fetch("http://127.0.0.1:5000/upload", {
         method: "POST",
         body: formData
       });
 
+      clearInterval(progressInterval);
       const data = await res.text();
-      
+
       setUploadProgress(100);
-      
+
       if (data.includes("uploaded")) {
-        alert("File uploaded successfully.");
-        setFile(null);
-        setUploadProgress(0);
-        document.getElementById("fileInput").value = "";
-        setTimeout(() => navigate("/my-files"), 1500);
+        setUploadStatus('success');
+        setTimeout(() => {
+          setFile(null);
+          setUploadProgress(0);
+          setUploadStatus(null);
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
+          navigate("/my-files");
+        }, 1500);
       } else {
+        setUploadStatus('error');
         alert("Upload failed: " + data);
       }
     } catch (error) {
+      setUploadStatus('error');
       alert("Error uploading file: " + error.message);
     }
-    
+
     setIsUploading(false);
   };
+
+  const recordTypes = [
+    { id: 'prescription', label: 'Prescription', icon: '💊' },
+    { id: 'lab', label: 'Lab Report', icon: '🧪' },
+    { id: 'xray', label: 'X-Ray/Scan', icon: '🩻' },
+    { id: 'certificate', label: 'Medical Certificate', icon: '📋' },
+    { id: 'other', label: 'Other Document', icon: '📄' }
+  ];
 
   return (
     <div className="upload-container">
       <div className="upload-wrapper">
-        <h2>Upload Medical Records</h2>
-        <p>Securely upload prescriptions, lab reports, medical certificates, and other health documents.</p>
+        <div className="upload-header slide-up">
+          <div className="header-icon">📤</div>
+          <h1>Upload Medical Records</h1>
+          <p>Securely upload and organize your health documents with advanced encryption and HIPAA compliance.</p>
+        </div>
 
-        <div className="record-type-selector">
-          <label>Record Type:</label>
+        <div className="record-type-selector card slide-up" style={{ '--delay': 1 }}>
+          <h3>📋 Select Record Type</h3>
           <div className="type-options">
-            <button 
-              className={`type-btn ${recordType === 'prescription' ? 'active' : ''}`}
-              onClick={() => setRecordType('prescription')}
-            >
-              Prescription
-            </button>
-            <button 
-              className={`type-btn ${recordType === 'lab' ? 'active' : ''}`}
-              onClick={() => setRecordType('lab')}
-            >
-              Lab Report
-            </button>
-            <button 
-              className={`type-btn ${recordType === 'xray' ? 'active' : ''}`}
-              onClick={() => setRecordType('xray')}
-            >
-              X-Ray/Scan
-            </button>
-            <button 
-              className={`type-btn ${recordType === 'certificate' ? 'active' : ''}`}
-              onClick={() => setRecordType('certificate')}
-            >
-              Medical Certificate
-            </button>
-            <button 
-              className={`type-btn ${recordType === 'other' ? 'active' : ''}`}
-              onClick={() => setRecordType('other')}
-            >
-              Other Document
-            </button>
+            {recordTypes.map((type, index) => (
+              <button
+                key={type.id}
+                className={`type-btn ${recordType === type.id ? 'active' : ''}`}
+                onClick={() => setRecordType(type.id)}
+                style={{ '--index': index }}
+              >
+                <span className="type-icon">{type.icon}</span>
+                <span className="type-label">{type.label}</span>
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="upload-section">
-          <div className={`upload-box ${file ? 'has-file' : ''}`}>
+        <div className="upload-section card slide-up" style={{ '--delay': 2 }}>
+          <div
+            className={`upload-box ${file ? 'has-file' : ''} ${isDragOver ? 'drag-over' : ''} ${uploadStatus ? uploadStatus : ''}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onClick={() => !isUploading && fileInputRef.current?.click()}
+          >
             {file ? (
-              <div className="file-selected">
-                <div className="file-icon-large">File</div>
-                <p className="file-name">{file.name}</p>
-                <p className="file-size">
-                  {(file.size / 1024 / 1024).toFixed(2)} MB
-                </p>
-                <button 
-                  className="change-btn"
-                  onClick={() => {
+              <div className="file-selected bounce-in">
+                <div className="file-icon-large">📄</div>
+                <div className="file-info">
+                  <h4 className="file-name">{file.name}</h4>
+                  <p className="file-size">
+                    {(file.size / 1024 / 1024).toFixed(2)} MB • {file.type.split('/')[1].toUpperCase()}
+                  </p>
+                </div>
+                <button
+                  className="change-btn btn-secondary"
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setFile(null);
-                    document.getElementById("fileInput").value = "";
+                    setUploadStatus(null);
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = "";
+                    }
                   }}
+                  disabled={isUploading}
                 >
                   Change File
                 </button>
               </div>
             ) : (
-              <div className="upload-icon">
-                <p>Drag & drop your file here</p>
-                <p className="or-text">or</p>
+              <div className="upload-prompt">
+                <div className="upload-icon">
+                  <div className="cloud-icon">☁️</div>
+                  <h3>Drop your medical file here</h3>
+                  <p>or click to browse your files</p>
+                  <div className="supported-formats">
+                    <span>PDF</span>
+                    <span>DOC</span>
+                    <span>DOCX</span>
+                    <span>JPG</span>
+                    <span>PNG</span>
+                    <span>XLS</span>
+                  </div>
+                </div>
               </div>
             )}
-            
+
             <input
-              id="fileInput"
+              ref={fileInputRef}
               type="file"
               onChange={handleFileSelect}
               className="file-input"
               disabled={isUploading}
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx"
             />
           </div>
 
           {isUploading && (
-            <div className="progress-section">
+            <div className="progress-section slide-up">
               <div className="progress-bar">
-                <div 
-                  className="progress-fill" 
-                  style={{ width: uploadProgress + '%' }}
+                <div
+                  className="progress-fill"
+                  style={{ width: `${uploadProgress}%` }}
                 ></div>
               </div>
-              <p className="progress-text">Uploading... {uploadProgress}%</p>
+              <p className="progress-text">
+                {uploadProgress < 100 ? `Uploading... ${uploadProgress}%` : 'Processing file...'}
+              </p>
             </div>
           )}
 
-          <div className="upload-actions">
-            <button 
-              className="upload-btn"
+          {uploadStatus === 'success' && (
+            <div className="status-message success slide-up">
+              <span className="status-icon">✅</span>
+              <span>File uploaded successfully! Redirecting...</span>
+            </div>
+          )}
+
+          {uploadStatus === 'error' && (
+            <div className="status-message error slide-up">
+              <span className="status-icon">❌</span>
+              <span>Upload failed. Please try again.</span>
+            </div>
+          )}
+
+          <div className="upload-actions slide-up" style={{ '--delay': 3 }}>
+            <button
+              className="btn upload-btn"
               onClick={handleUpload}
               disabled={!file || isUploading}
             >
-              {isUploading ? 'Uploading...' : 'Upload File'}
+              {isUploading ? (
+                <>
+                  <span className="loading-spinner"></span>
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <span>📤</span>
+                  Upload File
+                </>
+              )}
             </button>
-            <button 
-              className="cancel-btn"
+            <button
+              className="btn btn-secondary cancel-btn"
               onClick={() => navigate("/my-files")}
               disabled={isUploading}
             >
+              <span>📁</span>
               View My Files
             </button>
           </div>
+        </div>
 
-          <div className="upload-info">
-            <h4>Upload Guidelines</h4>
-            <ul>
-              <li>Supported formats: PDF, DOC, DOCX, JPG, PNG, XLS (Medical reports preferred as PDF)</li>
-              <li>Maximum file size: 50 MB per document</li>
-              <li>All files are encrypted and HIPAA compliant</li>
-              <li>Share with your doctor or manage records easily</li>
-              <li>Keep organized medical history in one secure place</li>
-            </ul>
+        <div className="upload-info card slide-up" style={{ '--delay': 4 }}>
+          <h4>🛡️ Guidelines</h4>
+          <div className="info-grid">
+            
+            <div className="info-item">
+              <span className="info-icon">📏</span>
+              <div>
+                <strong>File Limits</strong>
+                <p>Maximum 50MB per document</p>
+              </div>
+            </div>
+            <div className="info-item">
+              <span className="info-icon">📋</span>
+              <div>
+                <strong>Supported Formats</strong>
+                <p>PDF, DOC, DOCX, JPG, PNG, XLS files accepted</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

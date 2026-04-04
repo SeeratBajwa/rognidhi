@@ -1,0 +1,5 @@
+AI SUMMARY FROM SAMPLE MEDICAL REPORTS:
+============================================================
+Error generating summary: Can't load the model for 'sshleifer/distilbart-cnn-6-6'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'sshleifer/distilbart-cnn-6-6' is the correct path to a directory containing a file named pytorch_model.bin.
+
+Processed 3 documents

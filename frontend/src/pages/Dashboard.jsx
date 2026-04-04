@@ -59,53 +59,60 @@ export default function Dashboard({ userEmail, isLoggedIn }) {
       <div className="dashboard-grid">
         {userInfo?.role === 'doctor' ? (
           <>
-            <div className="stat-card">
+            <div className="stat-card" style={{ '--card-index': 0 }}>
+              <div className="stat-icon">👥</div>
               <div className="stat-content">
-                <h4>👥 My Patients</h4>
+                <h4>My Patients</h4>
                 <p className="stat-value">{stats?.totalPatients || 0}</p>
               </div>
             </div>
 
-            <div className="stat-card">
+            <div className="stat-card" style={{ '--card-index': 1 }}>
+              <div className="stat-icon">📄</div>
               <div className="stat-content">
-                <h4>📄 Shared Reports</h4>
+                <h4>Shared Reports</h4>
                 <p className="stat-value">{stats?.totalSharedReports || 0}</p>
               </div>
             </div>
 
-            <div className="stat-card">
+            <div className="stat-card" style={{ '--card-index': 2 }}>
+              <div className="stat-icon">🏥</div>
               <div className="stat-content">
-                <h4>🏥 Account Type</h4>
+                <h4>Account Type</h4>
                 <p className="stat-value">Doctor</p>
               </div>
             </div>
           </>
         ) : (
           <>
-            <div className="stat-card">
+            <div className="stat-card" style={{ '--card-index': 0 }}>
+              <div className="stat-icon">📄</div>
               <div className="stat-content">
-                <h4>📄 Medical Records</h4>
+                <h4>Medical Records</h4>
                 <p className="stat-value">{stats?.totalFiles || 0}</p>
               </div>
             </div>
 
-            <div className="stat-card">
+            <div className="stat-card" style={{ '--card-index': 1 }}>
+              <div className="stat-icon">👤</div>
               <div className="stat-content">
-                <h4>👤 Account Type</h4>
+                <h4>Account Type</h4>
                 <p className="stat-value">Patient</p>
               </div>
             </div>
 
-            <div className="stat-card">
+            <div className="stat-card" style={{ '--card-index': 2 }}>
+              <div className="stat-icon">💾</div>
               <div className="stat-content">
-                <h4>💾 Storage Used</h4>
+                <h4>Storage Used</h4>
                 <p className="stat-value">{stats?.storageUsed || "0 MB"}</p>
               </div>
             </div>
 
-            <div className="stat-card">
+            <div className="stat-card" style={{ '--card-index': 3 }}>
+              <div className="stat-icon">🔗</div>
               <div className="stat-content">
-                <h4>🔗 Shared With</h4>
+                <h4>Shared With</h4>
                 <p className="stat-value">{stats?.sharedWith || 0} Doctors</p>
               </div>
             </div>
@@ -121,14 +128,18 @@ export default function Dashboard({ userEmail, isLoggedIn }) {
               <button
                 className="action-card"
                 onClick={() => navigate("/doctor-patients")}
+                style={{ '--action-index': 0 }}
               >
-                <p>👥 My Patients</p>
+                <div className="action-icon">👥</div>
+                <p>My Patients</p>
               </button>
               <button
                 className="action-card"
                 onClick={() => navigate("/profile")}
+                style={{ '--action-index': 1 }}
               >
-                <p>👤 Profile</p>
+                <div className="action-icon">👤</div>
+                <p>Profile</p>
               </button>
             </>
           ) : (
@@ -136,26 +147,34 @@ export default function Dashboard({ userEmail, isLoggedIn }) {
               <button
                 className="action-card"
                 onClick={() => navigate("/upload")}
+                style={{ '--action-index': 0 }}
               >
-                <p>📤 Upload Records</p>
+                <div className="action-icon">📤</div>
+                <p>Upload Records</p>
               </button>
               <button
                 className="action-card"
                 onClick={() => navigate("/my-files")}
+                style={{ '--action-index': 1 }}
               >
-                <p>📁 My Records</p>
+                <div className="action-icon">📁</div>
+                <p>My Records</p>
               </button>
               <button
                 className="action-card"
                 onClick={() => navigate("/profile")}
+                style={{ '--action-index': 2 }}
               >
-                <p>👤 Profile</p>
+                <div className="action-icon">👤</div>
+                <p>Profile</p>
               </button>
               <button
                 className="action-card"
                 onClick={() => navigate("/share")}
+                style={{ '--action-index': 3 }}
               >
-                <p>🔗 Share with Doctor</p>
+                <div className="action-icon">🔗</div>
+                <p>Share with Doctor</p>
               </button>
             </>
           )}
@@ -169,7 +188,7 @@ export default function Dashboard({ userEmail, isLoggedIn }) {
             {stats.recentFiles.map((file, idx) => {
               const fileDate = file.created_at ? new Date(file.created_at) : new Date();
               return (
-                <li key={idx}>
+                <li key={idx} style={{ '--file-index': idx }}>
                   <span>{file.file_path}</span>
                   <small>{fileDate.toLocaleDateString()}</small>
                 </li>

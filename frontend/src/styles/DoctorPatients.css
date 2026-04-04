@@ -4,6 +4,18 @@
   margin: 0 auto;
   padding: 20px;
   min-height: 100vh;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .doctor-header {
@@ -14,18 +26,45 @@
   border: 1px solid var(--border-color);
   border-radius: 12px;
   color: var(--text-primary);
+  animation: slideInFromTop 0.5s ease-out;
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .doctor-header h1 {
   margin: 0 0 10px 0;
   font-size: 2.5rem;
   font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeIn 2s ease-out;
 }
 
 .doctor-header p {
   margin: 0;
   font-size: 1.1rem;
   opacity: 0.9;
+  animation: fadeIn 1s ease-out 0.3s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .doctor-content {
@@ -33,6 +72,7 @@
   grid-template-columns: 1fr 2fr;
   gap: 30px;
   margin-top: 20px;
+  animation: fadeIn 0.8s ease-out 0.4s both;
 }
 
 .patients-list {
@@ -40,6 +80,18 @@
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  animation: slideInFromLeft 0.6s ease-out 0.5s both;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .patients-list h2 {
@@ -62,29 +114,43 @@
   cursor: pointer;
   transition: all 0.3s ease;
   background: #f9fafb;
+  position: relative;
+  overflow: hidden;
 }
 
 .patient-card:hover {
   border-color: var(--primary-color);
   background: #f0f9ff;
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15);
 }
 
 .patient-card.selected {
   border-color: var(--primary-color);
   background: #e0f2fe;
   box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+  transform: translateY(-2px);
 }
 
 .patient-avatar {
   font-size: 2rem;
   margin-right: 15px;
+  transition: transform 0.3s ease;
+}
+
+.patient-card:hover .patient-avatar {
+  transform: scale(1.1);
 }
 
 .patient-info h3 {
   margin: 0 0 5px 0;
   color: var(--text-primary);
   font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.patient-card:hover .patient-info h3 {
+  color: var(--primary-color);
 }
 
 .patient-info p {
@@ -103,6 +169,18 @@
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  animation: slideInFromRight 0.6s ease-out 0.6s both;
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .patient-reports-empty {
@@ -113,6 +191,7 @@
   text-align: center;
   color: var(--text-secondary);
   font-size: 1.1rem;
+  animation: fadeIn 0.8s ease-out 0.7s both;
 }
 
 .reports-header {
@@ -120,6 +199,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  animation: fadeIn 0.6s ease-out 0.8s both;
 }
 
 .reports-header h2 {
@@ -129,7 +209,7 @@
 }
 
 .ai-summary-btn {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: white;
   border: none;
   padding: 12px 20px;
@@ -137,51 +217,85 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
 }
 
 .ai-summary-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
 }
 
 .ai-summary-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.2);
 }
 
 .ai-summary {
-  background: #f0f9ff;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   border: 1px solid #0ea5e9;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 20px;
   margin-bottom: 20px;
+  animation: slideInFromBottom 0.6s ease-out;
+  box-shadow: 0 8px 30px rgba(14, 165, 233, 0.1);
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .ai-error {
-  background: #fee2e2;
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
   border: 1px solid #ef4444;
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 20px;
   color: #dc2626;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
 .ai-summary h3 {
   margin: 0 0 15px 0;
   color: var(--primary-color);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  animation: fadeIn 0.8s ease-out 0.2s both;
 }
 
 .summary-content {
   color: var(--text-primary);
-  line-height: 1.6;
-  white-space: pre-line;
+  line-height: 1.75;
+  white-space: pre-wrap;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  animation: fadeIn 1s ease-out 0.4s both;
 }
 
 .reports-list {
   display: grid;
   gap: 15px;
+  animation: fadeIn 0.8s ease-out 0.9s both;
 }
 
 .report-item {
@@ -192,26 +306,46 @@
   border-radius: 8px;
   background: #f9fafb;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out both;
 }
 
 .report-item:hover {
   border-color: var(--primary-color);
   background: #f0f9ff;
+  transform: translateX(5px);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15);
 }
 
 .report-icon {
   font-size: 1.5rem;
   margin-right: 15px;
+  transition: transform 0.3s ease;
+}
+
+.report-item:hover .report-icon {
+  transform: scale(1.2) rotate(5deg);
 }
 
 .report-details {
   flex: 1;
+  transition: transform 0.3s ease;
+}
+
+.report-item:hover .report-details {
+  transform: translateX(5px);
 }
 
 .report-details h4 {
   margin: 0 0 5px 0;
   color: var(--text-primary);
   font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.report-item:hover .report-details h4 {
+  color: var(--primary-color);
 }
 
 .report-details p {
@@ -226,7 +360,7 @@
 }
 
 .view-report-btn {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: white;
   border: none;
   padding: 8px 16px;
@@ -234,17 +368,22 @@
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.2);
 }
 
 .view-report-btn:hover {
-  background: var(--secondary-color);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
 }
 
 .no-patients, .no-reports {
   text-align: center;
   padding: 40px 20px;
   color: var(--text-secondary);
+  animation: fadeIn 0.8s ease-out;
 }
 
 .no-patients p, .no-reports p {
@@ -258,36 +397,45 @@
 }
 
 .loading {
-  text-align: center;
-  padding: 40px;
-  color: var(--text-secondary);
-  font-size: 1.1rem;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .doctor-content {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .reports-header {
     flex-direction: column;
     gap: 15px;
-    align-items: stretch;
+    text-align: center;
   }
 
   .ai-summary-btn {
-    justify-content: center;
+    width: 100%;
+    text-align: center;
   }
 
   .report-item {
     flex-direction: column;
-    align-items: flex-start;
+    text-align: center;
     gap: 10px;
   }
 
   .view-report-btn {
-    align-self: stretch;
+    width: 100%;
     text-align: center;
   }
 }

@@ -136,7 +136,14 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
                 disabled={generatingSummary || patientReports.length === 0}
                 title={patientReports.length === 0 ? "No reports to summarize" : "Generate summary"}
               >
-                {generatingSummary ? "Generating..." : "Generate Summary"}
+                {generatingSummary ? (
+                  <>
+                    <span className="loading"></span>
+                    Generating...
+                  </>
+                ) : (
+                  "Generate Summary"
+                )}
               </button>
             </div>
 
@@ -163,13 +170,13 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
               <div className="reports-list">
                 <h3>Shared Reports ({patientReports.length})</h3>
                 {patientReports.map((report, idx) => (
-                  <div key={idx} className="report-item">
+                  <div key={idx} className="report-item" style={{ '--item-index': idx }}>
                     <div className="report-icon">
-                      {report.document_type === 'prescription' && 'Prescription'}
-                      {report.document_type === 'lab_report' && 'Lab Report'}
-                      {report.document_type === 'x_ray' && 'X-Ray'}
-                      {report.document_type === 'certificate' && 'Certificate'}
-                      {!['prescription', 'lab_report', 'x_ray', 'certificate'].includes(report.document_type) && 'Document'}
+                      {report.document_type === 'prescription' && '💊'}
+                      {report.document_type === 'lab_report' && '🧪'}
+                      {report.document_type === 'x_ray' && '🩻'}
+                      {report.document_type === 'certificate' && '📄'}
+                      {!['prescription', 'lab_report', 'x_ray', 'certificate'].includes(report.document_type) && '📋'}
                     </div>
                     <div className="report-details">
                       <h4>{report.document_type ? report.document_type.replace(/_/g, ' ').toUpperCase() : 'Medical Document'}</h4>
