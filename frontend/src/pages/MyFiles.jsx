@@ -13,7 +13,7 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
   const fetchFiles = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:5000/my-files/${userEmail}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/my-files/${userEmail}`);
       const data = await res.json();
       setFiles(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -29,7 +29,7 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
     const loadFiles = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch(`http://127.0.0.1:5000/my-files/${userEmail}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/my-files/${userEmail}`);
         const data = await res.json();
         setFiles(Array.isArray(data) ? data : []);
       } catch (error) {
@@ -73,7 +73,7 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
 
     try {
       const res = await fetch(
-        `http://127.0.0.1:5000/delete-file/${fileId}`,
+        `${import.meta.env.VITE_API_URL}/delete-file/${fileId}`,
         { method: "DELETE" }
       );
       const data = await res.text();
@@ -95,7 +95,7 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
 
     try {
       const res = await fetch(
-        `http://127.0.0.1:5000/rename-file/${fileId}`,
+        `${import.meta.env.VITE_API_URL}/rename-file/${fileId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -117,7 +117,7 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
 
   const handleDownload = (filename) => {
     const link = document.createElement("a");
-    link.href = `http://127.0.0.1:5000/uploads/${filename}`;
+    link.href = `${import.meta.env.VITE_API_URL}/uploads/${filename}`;
     link.download = filename;
     link.click();
   };
@@ -214,7 +214,7 @@ export default function MyFiles({ userEmail, isLoggedIn }) {
                   className="action-btn view-btn"
                   onClick={() =>
                     window.open(
-                      `http://127.0.0.1:5000/uploads/${file.file_path}`,
+                      `${import.meta.env.VITE_API_URL}/uploads/${file.file_path}`,
                       "_blank"
                     )
                   }

@@ -17,7 +17,7 @@ export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserE
 
     const loadUserInfo = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:5000/user-info/${userEmail}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/user-info/${userEmail}`);
         const data = await res.json();
         if (data && data.name) {
           setUserInfo(data);
@@ -67,7 +67,7 @@ export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserE
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/change-password", {
+      const response = await fetch("${import.meta.env.VITE_API_URL}/change-password", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

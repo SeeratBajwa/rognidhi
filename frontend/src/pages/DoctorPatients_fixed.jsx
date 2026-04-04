@@ -19,7 +19,7 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
     const loadPatients = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`http://127.0.0.1:5000/doctor-patients/${userEmail}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/doctor-patients/${userEmail}`);
         const data = await res.json();
         setPatients(data.patients || []);
       } catch (error) {
@@ -38,7 +38,7 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
       console.log("Fetching reports for patient:", patientEmail);
       setAiSummary("");
       setAiError("");
-      const res = await fetch(`http://127.0.0.1:5000/patient-reports/${patientEmail}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/patient-reports/${patientEmail}`);
       const data = await res.json();
       console.log("Reports data received:", data);
       setPatientReports(data.reports || []);
@@ -55,7 +55,7 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
     setAiError("");
     try {
       console.log("Generating AI summary for patient:", patientEmail, "Doctor:", userEmail);
-      const res = await fetch(`http://127.0.0.1:5000/ai-summary/${patientEmail}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/ai-summary/${patientEmail}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ doctorEmail: userEmail })
@@ -177,7 +177,7 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
                       <small>Shared: {new Date(report.shared_at).toLocaleDateString()}</small>
                     </div>
                     <a
-                      href={`http://127.0.0.1:5000/uploads/${report.file_path.split('/').pop()}`}
+                      href={`${import.meta.env.VITE_API_URL}/uploads/${report.file_path.split('/').pop()}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="view-report-btn"

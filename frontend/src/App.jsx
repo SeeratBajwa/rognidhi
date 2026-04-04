@@ -24,7 +24,7 @@ function Navbar({ isLoggedIn, userEmail, setIsLoggedIn, setUserEmail }) {
 
     const loadUserRole = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:5000/user-info/${userEmail}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/user-info/${userEmail}`);
         const data = await res.json();
         setUserRole(data.role);
       } catch (error) {

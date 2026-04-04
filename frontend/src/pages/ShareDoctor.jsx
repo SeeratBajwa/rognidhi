@@ -12,7 +12,7 @@ export default function ShareDoctor({ userEmail, isLoggedIn }) {
 
   const fetchFiles = useCallback(async () => {
     try {
-      const res = await fetch(`http://127.0.0.1:5000/my-files/${userEmail}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/my-files/${userEmail}`);
       const data = await res.json();
       setFiles(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -23,7 +23,7 @@ export default function ShareDoctor({ userEmail, isLoggedIn }) {
 
   const fetchSharedRecords = useCallback(async () => {
     try {
-      const res = await fetch(`http://127.0.0.1:5000/shared-records/${userEmail}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/shared-records/${userEmail}`);
       const data = await res.json();
       setSharedWith(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -66,7 +66,7 @@ export default function ShareDoctor({ userEmail, isLoggedIn }) {
     }
 
     try {
-      const res = await fetch(`http://127.0.0.1:5000/revoke-share/${fileId}?doctorEmail=${encodeURIComponent(doctorEmail)}&patientEmail=${encodeURIComponent(userEmail)}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/revoke-share/${fileId}?doctorEmail=${encodeURIComponent(doctorEmail)}&patientEmail=${encodeURIComponent(userEmail)}`, {
         method: "DELETE"
       });
 
@@ -93,7 +93,7 @@ export default function ShareDoctor({ userEmail, isLoggedIn }) {
 
     setIsSharing(true);
     try {
-      const res = await fetch("http://127.0.0.1:5000/share-records", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/share-records`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

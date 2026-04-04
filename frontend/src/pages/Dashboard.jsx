@@ -14,11 +14,11 @@ export default function Dashboard({ userEmail, isLoggedIn }) {
 
     const loadDashboardData = async () => {
       try {
-        const userRes = await fetch(`http://127.0.0.1:5000/user-info/${userEmail}`);
+        const userRes = await fetch(`${import.meta.env.VITE_API_URL}/user-info/${userEmail}`);
         const userData = await userRes.json();
         if (userData.name) setUserInfo(userData);
 
-        const statsRes = await fetch(`http://127.0.0.1:5000/user-stats/${userEmail}`);
+        const statsRes = await fetch(`${import.meta.env.VITE_API_URL}/user-stats/${userEmail}`);
         const statsData = await statsRes.json();
 
         if (!statsData.storageUsed) {
