@@ -60,13 +60,13 @@ export default function ShareDoctor({ userEmail, isLoggedIn }) {
     }
   };
 
-  const handleRevokeAccess = async (shareId) => {
+  const handleRevokeAccess = async (fileId, doctorEmail) => {
     if (!confirm("Are you sure you want to revoke access to this file? The doctor will no longer be able to view it.")) {
       return;
     }
 
     try {
-      const res = await fetch(`http://127.0.0.1:5000/revoke-share/${shareId}`, {
+      const res = await fetch(`http://127.0.0.1:5000/revoke-share/${fileId}?doctorEmail=${encodeURIComponent(doctorEmail)}&patientEmail=${encodeURIComponent(userEmail)}`, {
         method: "DELETE"
       });
 
@@ -207,7 +207,7 @@ export default function ShareDoctor({ userEmail, isLoggedIn }) {
                               <span className="file-type">({file.documentType})</span>
                               <button
                                 className="revoke-file-btn"
-                                onClick={() => handleRevokeAccess(file.id)}
+                                onClick={() => handleRevokeAccess(file.id, share.doctorEmail)}
                                 title="Revoke access to this file"
                               >
                                 Revoke

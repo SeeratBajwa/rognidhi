@@ -38,7 +38,7 @@ export default function DoctorPatients({ userEmail, isLoggedIn }) {
       console.log("Fetching reports for patient:", patientEmail);
       setAiSummary("");
       setAiError("");
-      const res = await fetch(`http://127.0.0.1:5000/patient-reports/${patientEmail}`);
+      const res = await fetch(`http://127.0.0.1:5000/patient-reports/${patientEmail}?doctorEmail=${encodeURIComponent(userEmail)}`);
       const data = await res.json();
       console.log("Reports data received:", data);
       setPatientReports(data.reports || []);
