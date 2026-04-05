@@ -111,7 +111,7 @@ export default function Upload({ userEmail, isLoggedIn }) {
         });
       }, 200);
 
-      const res = await fetch("${import.meta.env.VITE_API_URL}/upload", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
         method: "POST",
         body: formData
       });

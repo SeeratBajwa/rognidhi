@@ -67,7 +67,7 @@ export default function Profile({ userEmail, isLoggedIn, setIsLoggedIn, setUserE
     }
 
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/change-password", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/change-password`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
