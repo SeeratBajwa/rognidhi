@@ -1,0 +1,8 @@
+ORIGINAL REPORT:
+==================================================
+
+Sample medical report content would be here...
+
+AI SUMMARY:
+==================================================
+Patient has 1 medical document(s). Document types: prescription. Diagnoses mentioned: Diabetes, Hypertension, High Cholesterol. Medications: Metformin, Lisinopril, Atorvastatin. Key findings: Abnormal findings noted, Normal findings. Please review individual reports for detailed medical information.

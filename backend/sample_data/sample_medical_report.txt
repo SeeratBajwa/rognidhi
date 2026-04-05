@@ -1,0 +1,87 @@
+PATIENT MEDICAL REPORT
+
+Patient Information:
+Name: John Doe
+Date of Birth: 01/15/1985 (Age: 41)
+Gender: Male
+Medical Record Number: MRN-123456
+
+Chief Complaint:
+Patient presents with chest pain and shortness of breath for the past 3 days.
+
+History of Present Illness:
+The patient reports acute onset of substernal chest pain that radiates to the left arm and jaw.
+Pain is described as pressure-like, rated 7/10 in severity. Associated symptoms include
+dyspnea, diaphoresis, and nausea. Pain is exacerbated by exertion and relieved partially
+by rest. No prior episodes of similar chest pain.
+
+Past Medical History:
+- Hypertension (diagnosed 2018)
+- Type 2 Diabetes Mellitus (diagnosed 2019)
+- Hyperlipidemia
+- No prior cardiac history
+- No surgical history
+
+Medications:
+- Metformin 500mg twice daily
+- Lisinopril 10mg daily
+- Atorvastatin 20mg daily
+- Aspirin 81mg daily
+
+Allergies: No known drug allergies
+
+Social History:
+- Former smoker (quit 2020, 20 pack-year history)
+- Occasional alcohol use
+- Works as accountant
+
+Family History:
+- Father died of myocardial infarction at age 65
+- Mother has hypertension
+- No family history of sudden cardiac death
+
+Vital Signs:
+- Blood Pressure: 160/95 mmHg
+- Heart Rate: 88 bpm
+- Respiratory Rate: 18/min
+- Temperature: 98.6°F
+- Oxygen Saturation: 96% on room air
+- BMI: 28.5
+
+Physical Examination:
+General: Well-developed male in mild distress
+HEENT: Normocephalic, atraumatic
+Cardiovascular: Regular rate and rhythm, no murmurs, rubs, or gallops
+Respiratory: Lungs clear to auscultation bilaterally
+Abdomen: Soft, non-tender, non-distended
+Extremities: No edema, 2+ pulses bilaterally
+
+Laboratory Results:
+- Troponin I: 0.15 ng/mL (elevated, normal <0.04)
+- CK-MB: 12 ng/mL (elevated, normal <6.3)
+- Total CK: 180 IU/L (elevated, normal <174)
+- BNP: 450 pg/mL (elevated, normal <100)
+- Glucose: 145 mg/dL
+- HbA1c: 7.2%
+- Lipid Panel: Total Cholesterol 220, LDL 140, HDL 35, Triglycerides 180
+
+Electrocardiogram:
+Sinus rhythm with ST-segment elevation in leads II, III, aVF, and V1-V4,
+consistent with inferior and anterior STEMI.
+
+Assessment:
+Acute ST-elevation myocardial infarction (STEMI)
+Uncontrolled hypertension
+Type 2 diabetes mellitus, moderately controlled
+Hyperlipidemia
+
+Plan:
+1. Immediate cardiac catheterization and possible PCI
+2. Start heparin drip, aspirin, clopidogrel, and beta-blocker
+3. Admit to cardiac care unit
+4. Lifestyle modification counseling
+5. Follow-up echocardiography and stress testing
+
+Impression:
+High-risk STEMI requiring urgent intervention. Risk factors include hypertension,
+diabetes, hyperlipidemia, and family history.

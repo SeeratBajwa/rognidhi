@@ -1,0 +1,5 @@
+AI SUMMARY FROM SAMPLE MEDICAL REPORTS:
+============================================================
+Error generating summary: cannot access local variable 'MODEL_NAME' where it is not associated with a value
+
+Processed 3 documents
